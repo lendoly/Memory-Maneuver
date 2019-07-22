@@ -9,7 +9,8 @@ class Node:
         self.number_children = info_list.pop(0)
         self.amount_of_metada = info_list.pop(0)
         self.generate_children(info_list)
-        self.metadata = [info_list.pop(0) for _ in range(self.amount_of_metada)]
+        self.metadata = [info_list.pop(0)
+                         for _ in range(self.amount_of_metada)]
 
     def generate_children(self, info_list):
         self.children = [Node(info_list) for _ in range(self.number_children)]
@@ -25,7 +26,8 @@ class Node:
         return data
 
     def get_total(self):
-        return sum(self.metadata) + sum(child.get_total() for child in self.children)
+        return sum(self.metadata) + sum(child.get_total()
+                                        for child in self.children)
 
     def print_tree(self):
         print(json.dumps(self.get_dict()))
