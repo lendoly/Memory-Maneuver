@@ -8,4 +8,5 @@ Just run `python manage.py`
 Open the file `input.txt` and change the data
 
 ## Requirements
-Python > 3.7
+Python >= 3.7
+Pytests >= 5.0.1
