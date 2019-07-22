@@ -1,29 +1,31 @@
-from generators import next_letter
-
-generator = next_letter()
+import json
 
 
 class Node:
 
-    def __init__(self, info_list):
-
+    def __init__(self, info_list: list, root: bool = False):
+        self.root = root
         self.childs = []
-        self.node_name = next(generator)
-        self.number_childs = info_list[0]
-        self.amount_of_metada = info_list[1]
-        self.metadata = info_list[-self.amount_of_metada:]
-        self.generate_childrens(info_list[2:-self.amount_of_metada])
+        self.number_children = info_list.pop(0)
+        self.amount_of_metada = info_list.pop(0)
+        self.generate_children(info_list)
+        self.metadata = [info_list.pop(0) for _ in range(self.amount_of_metada)]
 
-    def generate_childrens(self, info_list):
-        grow = len(info_list) // self.number_childs
-        for i in range(self.number_childs):
-            actual = i * grow
-            print(f"number of childs: {info_list[actual]}, "
-                  f"number of metadata: {info_list[actual + 1]}, "
-                  f"list= {info_list[actual + 3: actual + grow]}")
+    def generate_children(self, info_list):
+        self.children = [Node(info_list) for _ in range(self.number_children)]
 
-    def PrintTree(self):
-        print(f"Node {self.node_name}, "
-              f"number of childs: {self.number_childs}, "
-              f"amount of metadata: {self.amount_of_metada}, "
-              f"metadata: {self.metadata}, childs: {self.childs}")
+    def get_dict(self):
+        data = {"number of children": self.number_children,
+                "amount of metadata": self.amount_of_metada,
+                "metadata": self.metadata,
+                "childrens": [child.get_dict() for child in self.children]}
+        if self.root:
+            data["total"] = self.get_total()
+
+        return data
+
+    def get_total(self):
+        return sum(self.metadata) + sum(child.get_total() for child in self.children)
+
+    def print_tree(self):
+        print(json.dumps(self.get_dict()))
