@@ -7,6 +7,9 @@ Just run `python manage.py`
 ## How to change the input
 Open the file `input.txt` and change the data
 
+## How to run the unittest
+Once pytest is installed run `python pytest`
+
 ## Requirements
 Python >= 3.7
 Pytests >= 5.0.1
