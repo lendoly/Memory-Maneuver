@@ -28,12 +28,12 @@ class Node:
         self.root = root
         self.number_children = info_list.pop(0)
         self.amount_of_metada = info_list.pop(0)
-        self.generate_children(info_list)
+        self._generate_children(info_list)
         self.metadata = [info_list.pop(0)
                          for _ in range(self.amount_of_metada)]
 
-    def generate_children(self, info_list):
-        """Class method that will generate the chidlren for the Node
+    def _generate_children(self, info_list):
+        """Private method that will generate the chidlren for the Node
 
         Args:
             info_list: The rest of the list to generate children.
@@ -45,8 +45,8 @@ class Node:
         #: list of Node: caontain the children for the current node
         self.children = [Node(info_list) for _ in range(self.number_children)]
 
-    def get_dict(self):
-        """Class method that will generate the children for the Node
+    def _get_dict(self):
+        """Private method that will generate the children for the Node
         
         Args:
             info_list: The rest of the list to generate children.
@@ -58,7 +58,7 @@ class Node:
         data = {"number of children": self.number_children,
                 "amount of metadata": self.amount_of_metada,
                 "metadata": self.metadata,
-                "childrens": [child.get_dict() for child in self.children]}
+                "childrens": [child._get_dict() for child in self.children]}
         if self.root:
             data["total"] = self.get_total()
 
@@ -81,4 +81,4 @@ class Node:
         Returns:
             None
         """
-        print(json.dumps(self.get_dict()))
+        print(json.dumps(self._get_dict()))
